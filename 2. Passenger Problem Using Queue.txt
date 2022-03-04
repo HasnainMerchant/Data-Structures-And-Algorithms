@@ -1,0 +1,165 @@
+#include<stdio.h>
+#include<conio.h>
+#define MAX 100
+
+ struct queue{
+    int qu[MAX];
+    int front;
+    int rear;
+    int count;
+ }q;
+
+ void add(int item)
+ {
+   if(q.count == MAX)
+   {
+       printf("Cannot Add To Full Queue\n");
+   }
+   else{
+    q.rear = (q.rear + 1) % MAX;
+    q.count++;
+    q.qu[q.rear] = item;
+   }
+ }
+
+ void delete()
+ {
+     if(q.count == 0){
+        printf("Cannot Delete From Empty Queue\n");
+     }
+     else{
+        q.front = (q.front + 1) % MAX;
+        q.count--;
+     }
+ }
+
+ void display()
+ {
+     printf("The Passenger At The Start Of The Queue Is : %d\n",q.qu[q.front]);
+ }
+
+ void displayRemain()
+ {
+     printf("The Remaining Passenger Are :\n");
+     for(int i=0;i<q.count;i++){
+        printf("%d\n",q.qu[q.front]);
+        q.front++;
+     }
+ }
+
+ int main()
+ {
+     int a,c,p;
+     q.front = 0;
+     q.rear = -1;
+     q.count = 0;
+     do{
+        printf("Enter Your Choice :\n 1.Add A Passenger At The Rear Of The Queue.\n 2.Display The Passenger At The Front Of The Queue.\n 3.Delete The Passenger At The Front Of The Queue.\n 4.Display The Remaining Passengers.\n");
+        scanf("%d",&a);
+        switch(a)
+        {
+        case 1:
+            printf("Enter The Passenger\n");
+            scanf("%d",&p);
+            add(p);
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            delete();
+            break;
+        case 4:
+            displayRemain();
+            break;
+
+        }
+        printf("Do You Want To Continue ?\n 1.Yes\n 2.No\n");
+        scanf("%d",&c);
+     }while(c == 1);
+     return 0;
+ }
+
+
+Output:
+
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+1
+Enter The Passenger
+1
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+1
+Enter The Passenger
+2
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+1
+Enter The Passenger
+3
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+2
+The Passenger At The Start Of The Queue Is : 1
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+3
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+2
+The Passenger At The Start Of The Queue Is : 2
+Do You Want To Continue ?
+ 1.Yes
+ 2.No
+1
+Enter Your Choice :
+ 1.Add A Passenger At The Rear Of The Queue.
+ 2.Display The Passenger At The Front Of The Queue.
+ 3.Delete The Passenger At The Front Of The Queue.
+ 4.Display The Remaining Passengers.
+4
+The Remaining Passenger Are :
+2
+3
+Do You Want To Continue ?
+ 1.Yes
+ 2.No

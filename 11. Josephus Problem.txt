@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<conio.h>
+#define MAX 100
+struct queue
+{
+    int que[MAX];
+    int front;
+    int rear;
+    int count;
+}q;
+
+void enqueue(int item)
+{
+    if(q.count == MAX)
+    {
+        printf("The Queue Is Full");
+    }
+    else
+    {
+        q.rear = (q.rear + 1) % MAX ;
+        q.que[q.rear] = item;
+        q.count ++;
+    }
+}
+
+void dequeue()
+{
+    if(q.count == 0)
+    {
+        printf("The Queue Is Empty");
+    }
+    else
+    {
+        q.count --;
+        q.front = (q.front + 1) % MAX;
+    }
+}
+
+int main()
+{
+    q.front = 0;
+    q.rear = -1;
+    q.count = 0;
+    int arr[MAX],n,i,m;
+    printf("\nEnter Number Of elements : ");
+    scanf("%d",&n);
+    printf("Enter The Elements : \n");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+        enqueue(arr[i]);
+    }
+    printf("Enter The Elements To Be Skipped : ");
+    scanf("%d",&m);
+    while(q.count != 1 )
+    {
+        for(i=0;i<m-1;i++)
+        {
+                enqueue(q.que[q.front]);
+                dequeue();
+        }
+        printf("The Person To Be Killed Is : %d\n",q.que[q.front]);
+        dequeue();
+    }
+    printf("The Survivor Is : %d ",q.que[q.front]);
+    return 0;
+}

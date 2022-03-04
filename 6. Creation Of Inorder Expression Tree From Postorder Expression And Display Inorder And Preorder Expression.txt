@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#define MAX 100
+
+struct tree
+{
+    char data;
+    struct tree *left;
+    struct tree *right;
+};
+
+struct tree *current;
+struct tree *head;
+
+struct tree *createNode(char v)
+{
+    struct tree *temp = (struct tree*)malloc(sizeof(struct tree));
+    temp->data = v;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+int isOperand(char op)
+{
+    if(op == '+' || op == '-' || op == '*' || op == '/')
+        return 1;
+    return 0;
+}
+
+struct tree *createInfixTree(char postfix[])
+{
+    struct tree *stk[MAX];
+    struct tree *var1;
+    struct tree *var2;
+    int top = -1,choice;
+    int length = strlen(postfix);
+    for(int i=0;i<length;i++)
+    {
+        choice = isOperand(postfix[i]);
+        if(choice == 0)
+        {
+            current = createNode(postfix[i]);
+            top++;
+            stk[top] = current;
+        }
+        else
+        {
+            current = createNode(postfix[i]);
+            var2 = stk[top];
+            top--;
+            var1 = stk[top];
+            top--;
+            current->left = var1;
+            current->right = var2;
+            top++;
+            stk[top] = current;
+        }
+    }
+
+    current = stk[top];
+    top--;
+    return current;
+}
+
+void inorder(struct tree *head)  //Infix Is Just Inorder Traversal Of Inorder Tree
+{
+    struct tree *stk[MAX];
+    int top = -1;
+    struct tree *current;
+    current = head;
+    while(current != NULL || top != -1)
+    {
+        while(current != NULL)
+        {
+            stk[++top] = current;
+            current = current->left;
+        }
+        current = stk[top--];
+        printf("%c ",current->data);
+        current = current->right;
+    }
+}
+
+void preorder(struct tree *head)  //Prefix Is Just PreOrder Traversal Of Inorder Tree
+{
+    struct tree *stk[MAX];
+    int top = -1;
+    struct tree *current = NULL;
+    current = head;
+    do
+    {
+        while(current != NULL)
+        {
+            printf("%c ",current->data);
+            if(current->right != NULL)
+            {
+                stk[++top] = current->right;
+            }
+            current = current->left;
+        }
+        current = stk[top--];
+    }while(top >= -1 && current != NULL);
+}
+
+int main()
+{
+    char postfix[MAX];
+    printf("Enter The Postfix Expression : ");
+    gets(postfix);
+    head = createInfixTree(postfix);
+    printf("InOrder Expression Is : ");inorder(head);printf("\n");
+    printf("PreOrder Expression Is : ");preorder(head);
+    return 0;
+}

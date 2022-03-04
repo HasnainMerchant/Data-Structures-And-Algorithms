@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<conio.h>
+#define infinity 999999
+#define max 100
+
+int adj[max][max];
+int n;
+
+void createGraph()
+{
+    int i,j,choice;
+    printf("Enter Number Of Vertices : ");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            printf("Is There An Edge Between \nV%d and V%d ?\n1.Yes\n2.No\n",i,j);
+            scanf("%d",&choice);
+            switch(choice)
+            {
+            case 1:
+                adj[i][j] = 1;
+                break;
+            case 2:
+                adj[i][j] = infinity;
+                break;
+            }
+        }
+    }
+}
+
+
+void DFS()
+{
+    int visited[max] = {0};
+    int stack[max],top = -1,start,i;
+    printf("Enter Starting Vertex : V");
+    scanf("%d",&start);
+    stack[++top] = start;
+    while(top != -1)
+    {
+        start = stack[top--];
+        if(visited[start] == 0)
+        {
+            printf(" V%d ",start);
+            visited[start] = 1;
+            for(i=1;i<=n;i++)
+            {
+                if(visited[i] == 0)
+                    stack[++top] = i;
+            }
+        }
+    }
+}
+
+void BFS()
+{
+    int visited[max] = {0};
+    int queue[max],rear = 0,front = 0,start,i;
+    printf("\nEnter The Staring Vertex : V");
+    scanf("%d",&start);
+    queue[++rear] = start;
+    while(front != rear)
+    {
+        start = queue[++front];
+        printf(" V%d ",start);
+        for(i=1;i<=n;i++)
+        {
+            int u = adj[start][i];
+            if(u == 1)
+            {
+                if(visited[i] == 0)
+                {
+                    visited[i] = 1;
+                    queue[++rear] = i;
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    createGraph();
+    DFS();
+    BFS();
+    return 0;
+}

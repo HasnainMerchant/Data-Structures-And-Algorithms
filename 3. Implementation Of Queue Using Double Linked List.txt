@@ -1,0 +1,118 @@
+#include<stdio.h>
+#include<conio.h>
+
+struct node
+{
+ struct node *lptr;
+ int data;
+ struct node *rptr;
+};
+
+struct queue
+{
+    struct node *front,*rear;
+    int count;
+}que;
+
+
+struct node *first;
+struct node *new;
+struct node *temp;
+struct queue *q;
+
+void add();
+void del();
+void display();
+
+int main()
+{
+    int n;
+    while(n != 5)
+    {
+        printf("Enter Your Choice\n\n 1.Add In Queue\n 2.Delete From Queue\n 3.Display Queue\n 4.Exit\n");
+        scanf("%d",&n);
+        switch(n)
+        {
+        case 1:
+            add();
+            break;
+        case 2:
+            del();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            n = 5;
+        }
+    }
+    return 0;
+}
+
+void add()
+{
+
+    int data;
+    if(first == NULL)
+    {
+        q = (struct queue*)malloc(sizeof(struct queue));
+        new = (struct node*)malloc(sizeof(struct node));
+        printf("Enter The Data\n");
+        scanf("%d",&data);
+        new->data = data;
+        new->lptr = NULL;
+        new->rptr = NULL;
+        first = new;
+        q->rear = new;
+        q->front = new;
+        que.count++;
+    }
+    else
+    {
+        temp = first;
+        while(temp->rptr != NULL)
+        {
+            temp = temp->rptr;
+        }
+        q = (struct queue*)malloc(sizeof(struct queue));
+        new = (struct node*)malloc(sizeof(struct node));
+        printf("Enter The Data\n");
+        scanf("%d",&data);
+        new->data = data;
+        new->lptr = temp;
+        new->rptr = NULL;
+        temp->rptr = new;
+        q->rear = new;
+        que.count++;
+    }
+}
+
+void del()
+{
+     if(que.count != 0)
+    {
+        first = first->rptr;
+        first->lptr->rptr = NULL;
+        first->lptr->lptr = NULL;
+        free(first->lptr);
+        q->front = first;
+        que.count--;
+    }
+    else
+    {
+        printf("Cannot Delete From Empty Queue");
+    }
+}
+
+void display()
+{
+    temp = first;
+    while(temp != NULL)
+    {
+        printf("Current Node Address : %u\n",temp);
+        printf("Previous Address : %u\n",temp->lptr);
+        printf("Data : %d\n",temp->data);
+        printf("Next Address : %u\n",temp->rptr);
+        temp = temp->rptr;
+    }
+}

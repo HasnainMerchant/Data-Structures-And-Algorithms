@@ -1,0 +1,455 @@
+#include<stdio.h>
+#include<conio.h>
+
+struct tree  //Structure of tree
+{
+    int data;
+    struct tree *left,*right;
+};
+
+struct tree *head;
+struct tree *current;
+struct tree *temp;
+
+struct tree *createNode() //create a node in the tree function
+{
+    int data;
+    printf("enter data : ");
+    scanf("%d",&data);
+    struct tree *temp = (struct tree *)malloc(sizeof(struct tree));
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+};
+
+void insert()  //Binary Search Tree  (Insert Element Function)
+{
+    int i = 1;
+    struct tree *p;
+    p = head;
+    current = createNode();
+    if(head == NULL)
+        head = current;
+    else
+    {
+        while(i == 1)
+        {
+            if(current->data < p->data)
+            {
+                if(p->left == NULL)
+                {
+                    p->left = current;
+                    i = 0;
+                }
+                else
+                    p = p->left;
+            }
+            else
+            {
+                if(p->right == NULL)
+                {
+                    p->right = current;
+                    i = 0;
+                }
+                else
+                    p = p->right;
+            }
+        }
+    }
+}
+
+void createBinaryTree()  //Create Normal Binary Tree
+{
+    int n,flag,choice;
+    current = createNode();
+    head = current;
+    do
+    {
+        flag = 0;
+        while(flag != 1)
+        {
+            printf("Enter Value In Left Or Right w.r.t : %d\n",current->data);
+            printf("Enter\n1.For Left\n2.For Right\n");
+            scanf("%d",&n);
+            if(n == 1)
+            {
+                if(current->left == NULL)
+                {
+                    current->left = createNode();
+                    flag = 1;
+                }
+                else
+                    current = current->left;
+            }
+            else
+            {
+                if(current->right == NULL)
+                {
+                    current->right = createNode();
+                    flag = 1;
+                }
+                else
+                    current = current->right;
+            }
+        }
+        printf("Do You Want To Continue ?\n1.Yes\n2.No\n");
+        scanf("%d",&choice);
+    }while(choice == 1);
+}
+
+void displaylevelwise()  //Display The Tree Levelwise
+{
+    struct tree *queue[100];
+    int front = 0,rear = -1,count = 0;
+    if (head == NULL)
+        return;
+
+    // to store front element of
+    // queue.
+    struct tree *curr;
+    // Enqueue Root and NULL node.
+    queue[++rear] = head;
+    count++;
+    queue[++rear] = NULL;
+    count++;
+
+    while (count > 1)
+    {
+        curr = queue[front++];
+        count--;
+
+        // condition to check
+        // occurrence of next
+        // level.
+        if (curr == NULL)
+        {
+           queue[++rear] = NULL;
+           count++;
+        }
+
+        else {
+
+            // pushing left child of
+            // current node.
+            if(curr->left)
+                queue[++rear] = curr->left;count++;
+
+            // pushing right child of
+            // current node.
+            if(curr->right)
+                queue[++rear] = curr->right;count++;
+
+            printf("%d",curr->data);
+        }
+    }
+}
+
+void printleafnode()  //Print All Leaf Nodes in the tree
+{
+   if(head == NULL)
+        return;
+   struct tree *stk[100];
+   int top = -1;
+   stk[++top] = head;
+   while(top != -1)
+   {
+       temp = stk[top];
+       top--;
+       if(temp->right != NULL)
+       {
+           top++;
+           stk[top] = temp->right;
+       }
+       if(temp->left !=  NULL)
+       {
+           top++;
+           stk[top] = temp->left;
+       }
+       if(temp->left == NULL && temp->right == NULL)
+       {
+           printf("%d",temp->data);
+       }
+   }
+}
+
+void printnonleafnode()  //print all the non leaf nodes
+{
+   if(head == NULL)
+        return;
+   struct tree *stk[100];
+   int top = -1;
+   stk[++top] = head;
+   while(top != -1)
+   {
+       temp = stk[top];
+       top--;
+       if(temp->right != NULL)
+       {
+           top++;
+           stk[top] = temp->right;
+       }
+       if(temp->left !=  NULL)
+       {
+           top++;
+           stk[top] = temp->left;
+       }
+       if(temp->left == NULL || temp->right == NULL)
+       {
+           printf("%d",temp->data);
+       }
+   }
+}
+
+void preOrder(struct tree *node)  //PreOrder Traversal Of Tree
+{
+    struct tree *stk[MAX];
+    int top = -1;
+    struct tree *curr = NULL;
+    curr = node;
+    do
+    {
+        if(curr != NULL)
+        {
+            printf("%d",curr->data);
+            stk[++top] = curr;
+            curr = curr->left;
+        }
+        else
+        {
+            curr = stk[top--];
+            curr = curr->right;
+        }
+    }while(top >= -1 && curr != NULL);
+    /* //Recursion WAy OF PreOrder
+    if(head != NULL)
+    {
+        printf("%d",head->data);
+        preOrder(head->left);
+        preOrder(head->right);
+    }
+    else
+        return;
+    */
+}
+
+void inorder(struct tree *head)
+{
+    struct tree *stk[MAX];
+    int top = -1;
+    struct tree *curr = NULL;
+    curr = head;
+    do
+    {
+        if(current != NULL)
+        {
+            stk[++top] = current;
+            curr = curr->left;
+        }
+        else
+        {
+            curr = stk[top--];
+            printf("%d",curr->data);
+            curr = curr->right;
+        }
+    }while(top >= -1 && curr != NULL);
+}
+
+void postorder(struct tree *head)
+{
+    struct tree *stk[100];
+    int stk1[100];
+    int top = -1;
+    struct tree *current = head;
+    v = 0; //Value OF 1 before moving to left subtree and value 0f 2 before moving to the right subtree
+    if(current == NULL)
+        printf("Tree Is Empty ");
+    if(current != NULL)
+    {
+        stk[++top] = current;
+        stk1[++top] = 1;
+        current = current->left;
+        while(top != -1)
+        {
+            if(current != NULL && v == 0)
+            {
+                stk[++top] = current;
+                stk1[++top] = 1;
+                current = current->left;
+            }
+            else
+            {
+                current = stk[top--];
+                v = stk1[top--];
+                if(v == 1)
+                {
+                    stk[++top] = current;
+                    stk1[++top] = 2;
+                    current = current->right;
+                    v = 0;
+                }
+                else
+                    printf("%d",current->data);
+            }
+        }
+    }
+}
+
+void mirrorTree(struct tree *node)  //Mirror Tree without creating a new tree
+{
+    struct tree *queue[MAX];
+    int front = 0,rear = -1,count = 0;
+    if (node==NULL)
+        return;
+
+    queue[++rear] = node;
+    count++;
+    while(count != 0)
+    {
+        struct tree *curr = queue[front++];
+        count--;
+
+        struct tree *temp = curr->right;
+        curr->right = curr->left;
+        curr->left = temp;
+
+        if(curr->left != NULL)
+        {
+            queue[++rear] = curr->left;
+            count++;
+        }
+        if(curr->right != NULL)
+        {
+            queue[++rear] = curr->right;
+            count++;
+        }
+    }
+}
+
+void mirrorTree2(struct tree *node)  //Mirror Tree with creating a new tree
+{
+    struct tree *head2 = node;
+    struct tree *queue[MAX];
+    int front = 0,rear = -1,count = 0;
+    if (node==NULL)
+        return;
+
+    queue[++rear] = node;
+    count++;
+    while(count != 0)
+    {
+        struct tree *curr = queue[front++];
+        count--;
+
+        head2->left = curr->right;
+        head2->right = curr->left;
+
+        if(curr->left != NULL)
+        {
+            queue[++rear] = curr->left;
+            count++;
+        }
+        if(curr->right != NULL)
+        {
+            queue[++rear] = curr->right;
+            count++;
+        }
+    }
+}
+
+int heightTree(struct tree *node)  //calculate height of tree
+{
+    struct tree *queue[MAX];
+    struct tree *temp = NULL;
+    int front=0,rear=-1,count = 0,height = 0;
+    if (node==NULL)
+        return 0;
+    else
+    {
+        queue[++rear] = node;
+        count++;
+        while(1)
+        {
+            int nodeCount = count;
+            if(nodeCount == 0)
+                return height;
+            height++;
+            while(nodeCount > 0)
+            {
+                temp = queue[front++];
+                count--;
+
+                if(temp->left != NULL)
+                {
+                    queue[++rear] = temp->left;
+                    count++;
+                }
+                if(temp->right != NULL)
+                {
+                    queue[++rear] = temp->right;
+                    count++;
+                }
+                nodeCount--;
+           }
+       }
+   }
+}
+
+
+void deleteItem(int delItem)
+{
+    struct tree *curr = head;
+    struct tree *prev = head;
+    while(curr != NULL && curr->data != delItem)
+    {
+        prev = curr;
+        if(delItem < curr->data)
+            curr = curr->left;
+        else
+            curr = curr->right;
+    }
+    if(curr == NULL)
+        printf("Data Not Found In Tree");
+    if(curr->left == NULL || curr->right == NULL)
+    {
+        struct tree *newCurr;
+        if(curr->left == NULL)
+            newCurr = curr->right;
+        else
+            newCurr = curr->left;
+        if(curr == prev->left)
+            prev->left = newCurr;
+        else
+            prev->right = newCurr;
+        free(curr);
+    }
+    else
+    {
+        struct tree *second = NULL;
+        struct tree *temp = head;
+        temp = curr->right;
+        while(temp->left != NULL)
+        {
+            second = temp;
+            temp = temp->left;
+        }
+        if(second != NULL)
+            second->left = temp->right;
+        else
+            curr->right = temp->right;
+        curr->data = temp->data;
+        free(temp);
+    }
+}
+
+int main()
+{
+    insert();
+    insert();
+    insert();
+    printf("\n");
+    displaylevelwise();
+    printf("\n");
+    printleafnode();
+    printf("\n");
+    return 0;
+}

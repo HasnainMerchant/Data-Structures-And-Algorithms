@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#define MOD 5
+
+struct employee
+{
+    char emp_name[100];
+    int emp_id;
+};
+
+struct employee hash_table[MOD];
+int count = 1;
+
+int hash_function(int key)
+{
+    return (key % MOD);
+}
+
+void accept_values()
+{
+    while(count != MOD+1)
+    {
+        int emp_id,hash_value;
+        printf("\nEnter Employee Number %d Id : ",count);
+        scanf("%d",&emp_id);
+        hash_value = hash_function(emp_id);
+        if(hash_table[hash_value].emp_id == 0)
+        {
+            add_to_hash_table(emp_id,hash_value);
+        }
+        else
+        {
+            while(hash_table[hash_value].emp_id != 0)
+                {
+                    hash_value++;
+                }
+            add_to_hash_table(emp_id,hash_value);
+        }
+    }
+}
+
+void add_to_hash_table(int emp_id,int hash_value)
+{
+    printf("\nEnter Employee Name : ");
+    scanf("%s",hash_table[hash_value].emp_name);
+    hash_table[hash_value].emp_id = emp_id;
+    count++;
+}
+
+void display_hash_table()
+{
+    int hash_value;
+    printf("Hash Value\tName\tEmployee Id\t\n");
+    for(int i=0;i<MOD;i++)
+    {
+        hash_value = hash_function(hash_table[i].emp_id);
+        printf("%d\t\t",hash_value);
+        printf("%s",hash_table[i].emp_name);
+        printf("\t%d",hash_table[i].emp_id);
+        printf("\n");
+    }
+}
+
+int main()
+{
+    printf("\nA Hash Function Is Of MOD %d\n Using Linear Probing Of Collision Technique\n",MOD);
+    accept_values();
+    display_hash_table();
+}

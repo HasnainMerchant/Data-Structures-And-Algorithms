@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<conio.h>
+#define max 100
+
+int adj[max][max];
+int n;
+
+void createGraph()
+{
+    int i,j,weight,choice;
+    printf("Enter Number Of Vertices : ");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            printf("Is There An Edge Between \nV%d and V%d ?\n1.Yes\n2.No\n",i,j);
+            scanf("%d",&choice);
+            switch(choice)
+            {
+            case 1:
+                printf("Enter Weight Between The Edges : ");
+                scanf("%d",&weight);
+                adj[i][j] = weight;
+                break;
+            case 2:
+                adj[i][j] = 999999;
+                break;
+            }
+        }
+    }
+}
+
+void dijkstra(int source)
+{
+    int distance[max],visited[max],count,mindistance,nextnode,i,j;
+
+    for (i=1;i<=n;i++)
+        {
+            distance[i] = adj[source][i];
+            visited[i] = 0;
+        }
+
+    distance[source] = 0;
+    visited[source] = 1;
+    count = 1;
+
+    while(count < n-1)
+        {
+            mindistance = 999999;
+            for (i=1;i<=n;i++)
+                {
+                    if (distance[i] < mindistance && !visited[i])
+                    {
+                        mindistance = distance[i];
+                        nextnode = i;
+                    }
+                }
+            visited[nextnode] = 1;
+            for (i=1;i<=n;i++)
+            {
+                if (!visited[i])
+                    if (mindistance + adj[nextnode][i] < distance[i])
+                    {
+                        distance[i] = mindistance + adj[nextnode][i];
+                    }
+                count++;
+            }
+        }
+    for (i =1;i<=n;i++)
+        {
+            if (i != source)
+            {
+                printf("\nDistance From Source : V%d to V%d is = %d",source,i,distance[i]);
+            }
+        }
+}
+
+int main()
+{
+    int source;
+    createGraph();
+    printf("Enter Source Vertice : ");
+    scanf("%d",&source);
+    dijkstra(source);
+    return 0;
+}

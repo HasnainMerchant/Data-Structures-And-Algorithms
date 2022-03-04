@@ -1,6 +1,6 @@
 # Data-Structures-And-Algorithms
 C++ Code for Data Structures And Algorithms
-Codes For - 
+Codes For -
 1 - Binary To Decimal using Explicit Stack
 2 - Passenger Problem Using Queue
 3 - Implementation Of Queue Using Double Linked List

@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<conio.h>
+#include<iostream.h>
+#include<string.h>
+#define MAX 100
+
+struct stack{
+    int exp[MAX];
+    int top;
+}s;
+
+void push(int item){
+    if(s.top == (MAX-1)){
+        printf("Stack Is Full\n");
+    }
+        else{
+            s.top = s.top + 1;
+            s.exp[s.top] = item;
+        }
+}
+
+void pop(){
+    if(s.top == -1){
+        printf("Stack Is Empty\n");
+    }
+    else{
+        s.top = s.top - 1;
+    }
+}
+
+int main(){
+    int binary,cnt=0;
+    s.top = -1;
+    int base = 1,decimal=0;
+    printf("Enter The Binary Number\n");
+    scanf("%d",&binary);
+    while(binary){
+        int last_digit = binary % 10;
+        push(last_digit);
+        cnt++;
+        binary = binary / 10;
+    }
+    for(int i=0;i<cnt-1;i++){base = base * 2;}
+    while(s.top != -1){
+        decimal += s.exp[s.top] * base;
+        base = base / 2;
+        pop();
+    }
+
+    printf("The Decimal Number Is : %d",decimal);
+    return 0;
+}
+
+
+Output:
+Enter The Binary Number
+111
+The Decimal Number Is : 7
+Process returned 0 (0x0)   execution time : 6.556 s
+Press any key to continue.
+
+Another:
+Enter The Binary Number
+100001
+The Decimal Number Is : 33
+Process returned 0 (0x0)   execution time : 4.786 s
+Press any key to continue.

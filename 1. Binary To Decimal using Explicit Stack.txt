@@ -50,18 +50,3 @@ int main(){
     printf("The Decimal Number Is : %d",decimal);
     return 0;
 }
-
-
-Output:
-Enter The Binary Number
-111
-The Decimal Number Is : 7
-Process returned 0 (0x0)   execution time : 6.556 s
-Press any key to continue.
-
-Another:
-Enter The Binary Number
-100001
-The Decimal Number Is : 33
-Process returned 0 (0x0)   execution time : 4.786 s
-Press any key to continue.
